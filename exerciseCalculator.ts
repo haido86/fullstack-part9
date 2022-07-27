@@ -50,20 +50,20 @@ interface calculateExerciseValues {
   input: [hours: number];
 }
 
-const parseArguments = (args: Array<string>) => {
-  if (args.length <= 1) throw new Error('Not enough arguments');
+// const parseArguments = (args: Array<string>) => {
+//   if (args.length <= 1) throw new Error('Not enough arguments');
 
-  const findNaN = args.slice(2).find((item) => isNaN(Number(item)));
+//   const findNaN = args.slice(2).find((item) => isNaN(Number(item)));
 
-  if (!findNaN) {
-    return {
-      target: Number(args[2]),
-      hours: args.slice(3).map((item) => Number(item)),
-    };
-  } else {
-    throw new Error(`Provided values were not numbers!, ${findNaN}`);
-  }
-};
+//   if (!findNaN) {
+//     return {
+//       target: Number(args[2]),
+//       hours: args.slice(3).map((item) => Number(item)),
+//     };
+//   } else {
+//     throw new Error(`Provided values were not numbers!, ${findNaN}`);
+//   }
+// };
 
 let sum = 0;
 let trainingDays = 0;
