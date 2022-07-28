@@ -2,11 +2,11 @@ import express from 'express';
 import { calculateBmiValues, calculateBmi } from './bmiCalculator';
 const app = express();
 
-app.get(`/bmi`, (req, res) => {
-  let h = req.query.height;
-  let w = req.query.weight;
+app.get('/bmi', (req, res) => {
+  const h = req.query.height;
+  const w = req.query.weight;
 
-  if (!h || !w || isNaN(+h) || isNaN(+w)) {
+  if (!h || !w || isNaN(Number(h)) || isNaN(Number(w))) {
     res.send({
       error: 'malformatted parameters',
     });
