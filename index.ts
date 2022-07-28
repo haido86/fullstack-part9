@@ -1,28 +1,40 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import express from 'express';
-import { calculateBmiValues, calculateBmi } from './bmiCalculator';
 const app = express();
+app.use(express.json());
+import {
+  calculateExercises,
+  calculateExerciseValues,
+} from './exerciseCalculator';
 
-app.get('/bmi', (req, res) => {
-  const h = req.query.height;
-  const w = req.query.weight;
+app.post('/exercises', (request, response) => {
+  const { target, daily_exercises } = request.body;
 
-  if (!h || !w || isNaN(Number(h)) || isNaN(Number(w))) {
-    res.send({
-      error: 'malformatted parameters',
-    });
-  } else {
-    const person: calculateBmiValues = {
-      height: +h,
-      weight: +w,
-    };
-
-    const bmi = calculateBmi(person.height, person.weight);
-    res.json({
-      weight: person.weight,
-      height: person.height,
-      bmi: bmi,
+  if (!target || !daily_exercises) {
+    return response.status(400).json({
+      error: 'parameters missing',
     });
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const findNaN = daily_exercises.find((i: any) => isNaN(Number(i)));
+
+  if (isNaN(Number(target)) || findNaN) {
+    return response.status(400).json({
+      error: 'malformatted parameters',
+    });
+  }
+  const result: calculateExerciseValues = {
+    target: target,
+    daily_exercises: daily_exercises,
+  };
+
+  return response.json(
+    calculateExercises(result.target, result.daily_exercises)
+  );
 });
 
 const PORT = 3002;
